@@ -23,11 +23,13 @@ class Item:
 
 
     def __repr__(self):
+        """Магический метод для отладочного представления объекта"""
         return f"{self.__class__.__name__}('{self.__name}', " \
                f"{self.price}, {self.quantity})"
 
 
     def __str__(self):
+        """Магический метод для строкового представления объекта"""
         return f"{self.__name}"
 
 
