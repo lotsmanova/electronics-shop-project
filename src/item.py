@@ -22,13 +22,13 @@ class Item:
         self.__class__.all.append(self)
 
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Магический метод для отладочного представления объекта"""
         return f"{self.__class__.__name__}('{self.__name}', " \
                f"{self.price}, {self.quantity})"
 
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Магический метод для строкового представления объекта"""
         return f"{self.__name}"
 
@@ -70,16 +70,18 @@ class Item:
 
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls) -> 'Item':
+        """Класс-метод, инициализирующий экземпляры класса"""
         PATH_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         PATH_CSV = os.path.join(PATH_DIR, 'src', 'items.csv')
 
-        with open(PATH_CSV, newline = '') as csvfile:
+        with open(PATH_CSV, newline='', encoding='1251') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 cls(row['name'], row['price'], row['quantity'])
 
 
     @staticmethod
-    def string_to_number(num: str):
+    def string_to_number(num: str) -> int:
+        """Статический метод, возвращающий число из числа строки"""
         return int(float(num))
