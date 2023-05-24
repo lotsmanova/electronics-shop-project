@@ -42,7 +42,7 @@ class Item:
 
 
     @name.setter
-    def name(self, name):
+    def name(self, name: str) -> None:
         """
         Сеттер для атрибута name
         """
@@ -85,3 +85,11 @@ class Item:
     def string_to_number(num: str) -> int:
         """Статический метод, возвращающий число из числа строки"""
         return int(float(num))
+
+
+    def __add__(self, other: int) -> int or ValueError:
+        """Магический метод для сложения
+        количества товара"""
+        if not isinstance(other, Item):
+            raise ValueError('Складывать можно только объекты Item и дочерние от него')
+        return self.quantity + other.quantity
