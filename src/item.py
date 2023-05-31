@@ -1,12 +1,15 @@
 import csv
 import os
+from src.instantiatecsverror import InstantiateCSVError
 class Item:
     """
     Класс для представления товара в магазине.
     """
     pay_rate = 1.0
     all = []
-
+    # путь к файлу .csv
+    PATH_DIR = os.path.abspath('../src/')
+    PATH_CSV = os.path.join(PATH_DIR, 'items.csv')
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -71,15 +74,18 @@ class Item:
 
 
     @classmethod
-    def instantiate_from_csv(cls) -> 'Item':
+    def instantiate_from_csv(cls, path=PATH_CSV) -> None:
         """Класс-метод, инициализирующий экземпляры класса"""
-        PATH_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        PATH_CSV = os.path.join(PATH_DIR, 'src', 'items.csv')
-
-        with open(PATH_CSV, newline='', encoding='1251') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                cls(row['name'], row['price'], row['quantity'])
+        if not os.path.isfile(path):
+            raise FileNotFoundError('Отсутствует файл item.csv')
+        else:
+            with open(path, newline='', encoding='1251') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    if 'name' not in row or 'price' not in row or 'quantity' not in row:
+                        raise InstantiateCSVError('Файл item.csv поврежден')
+                    else:
+                        cls(row['name'], row['price'], row['quantity'])
 
 
     @staticmethod
@@ -94,3 +100,5 @@ class Item:
         if not isinstance(other, Item):
             raise ValueError('Складывать можно только объекты Item и дочерние от него')
         return self.quantity + other.quantity
+
+
