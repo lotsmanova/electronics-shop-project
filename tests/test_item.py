@@ -1,6 +1,8 @@
 import pytest
+import os
 from src.item import Item
 from src.phone import Phone
+from src.instantiatecsverror import InstantiateCSVError
 
 @pytest.fixture
 def item1():
@@ -61,3 +63,14 @@ def test_add(item1, phone1):
     # TestCase#9 проверка магического метода сложения
     assert item1 + phone1 == 40
 
+
+def test_instantiate_from_csv_file_not_found():
+    # TestCase#10 проверка выброса исключения
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv('../src/item.csv')
+
+
+def test_instantiate_from_csv_instance_csv_error():
+    # TestCase#11 проверка выброса исключения
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv(os.path.join(os.path.abspath("../src/"), "items_test.csv"))
