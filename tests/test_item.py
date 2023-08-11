@@ -2,7 +2,6 @@ import pytest
 import os
 from src.item import Item
 from src.phone import Phone
-from src.instantiatecsverror import InstantiateCSVError
 
 @pytest.fixture
 def item1():
